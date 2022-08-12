@@ -1,6 +1,9 @@
 ﻿using BlazorSozluk.Api.Application.Features.Queries.GetEntries;
+using BlazorSozluk.Api.Application.Features.Queries.GetEntryComments;
 using BlazorSozluk.Api.Application.Features.Queries.GetMainPageEntries;
+using BlazorSozluk.Common.ViewModels.RequestModels;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,6 +38,45 @@ namespace BlazorSozluk.Api.WebApi.Controllers
 
             return Ok(entries);
         }
+
+        [HttpGet]
+        [Route("Comments/{id}")]
+        public async Task<IActionResult> GetEntryComments(Guid id, int page, int pageSize)
+        {
+            var result = await mediator.Send(new GetEntryCommentsQuery(id, UserId, page, pageSize));
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("CreateEntry")]
+        [Authorize]
+        public async Task<IActionResult> CreateEntry([FromBody] CreateEntryCommand command)
+        {
+            if (!command.CreatedById.HasValue)
+                command.CreatedById = UserId;
+
+            var result = await mediator.Send(command);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("CreateEntryComment")]
+        [Authorize]
+        public async Task<IActionResult> CreateEntryComment([FromBody] CreateEntryCommentCommand command)
+        {
+            if (!command.CreatedById.HasValue)
+                command.CreatedById = UserId;
+
+            var result = await mediator.Send(command);
+
+            return Ok(result);
+        }
+
+
+        
+
 
 
 
