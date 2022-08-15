@@ -25,6 +25,7 @@ namespace BlazorSozluk.Api.Application.Features.Queries.GetEntries
 
         public async Task<List<GetEntriesViewModel>> Handle(GetEntriesQuery request, CancellationToken cancellationToken)
         {
+            //Query ile daha hızlı sorgulamalar yapıyoruz.
             var query = entryRepository.AsQueryable();
 
             if (request.TodaysEntries)
