@@ -10,7 +10,7 @@ namespace BlazorSozluk.Common.Infrastructure
     public class PasswordEncryptor
     {
         /// <summary>
-        /// 
+        /// This method Encrpt string password.
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
