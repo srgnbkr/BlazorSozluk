@@ -1,8 +1,15 @@
-﻿@inherits LayoutComponentBase
+﻿@using BlazorSozluk.WebApp.Pages.MainPages
+@inherits LayoutComponentBase
 
 <div class="page">
     <div class="sidebar">
-        <NavMenu />
+        <h5 class="text-white text-center sidebar-heading">@EntriesSubject</h5>
+        <a class="more-data" @onclick="@RefreshEntries">refresh</a>
+        
+
+        <ul class="list-group">
+            <EntriesComponent @ref="@entriesComponent" />
+        </ul>
     </div>
 
     <main>
@@ -15,3 +22,14 @@
         </article>
     </main>
 </div>
+
+@code{
+    public string EntriesSubject { get; set; } = "bugün";
+
+    private EntriesComponent entriesComponent;
+
+    private async Task RefreshEntries()
+    {
+        await entriesComponent.RefreshList();
+    }
+}
